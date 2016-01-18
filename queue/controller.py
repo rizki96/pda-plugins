@@ -27,9 +27,9 @@ class StartupCommand(puremvc.patterns.command.SimpleCommand, puremvc.interfaces.
         web_proxy.tree_mount(self.facade.PLUGIN_NAME, http_root.QueueRoot(), static_dir,
                              orm_base_obj=vo.Base,
                              db_plugin=
-                             utils.db_str_conn("user.db",
+                             utils.db_str_conn("queue.db",
                                                path=path))
 
     @staticmethod
     def _on_shutdown(event):
-        logging.info("user: shutdown")
+        logging.info("queue: shutdown")
