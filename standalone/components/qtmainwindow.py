@@ -4,9 +4,11 @@ import logging
 
 from PySide import QtCore, QtGui, QtWebKit
 from PySide.QtCore import QObject, Signal
-from ui import main_window
 #from ui import web_form
 from aside import components
+
+from standalone.ui import main_window
+
 
 def centerCoord(parent, WIDTH=640, HEIGHT=480):
     desktop = parent

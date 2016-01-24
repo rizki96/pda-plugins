@@ -1,6 +1,6 @@
 import puremvc.patterns.proxy
 
-from .components import httpserver
+from components import httpserver
 
 
 class WebServerProxy(puremvc.patterns.proxy.Proxy):

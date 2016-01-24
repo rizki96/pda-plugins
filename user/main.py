@@ -1,15 +1,9 @@
-import importlib
+import sys
+from PySide import QtGui
 from aside.facade import AsideFacade
 
+from standalone import main as sa_main, components
 from . import controller
-
-
-def class_for_name(module_name, class_name):
-    # load the module, will raise ImportError if module cannot be loaded
-    m = importlib.import_module(module_name)
-    # get the class, will raise AttributeError if class cannot be found
-    c = getattr(m, class_name)
-    return c
 
 
 class PluginFacade(AsideFacade):
@@ -29,6 +23,21 @@ class PluginFacade(AsideFacade):
 
         super(PluginFacade, self).registerCommand(PluginFacade.STARTUP, controller.StartupCommand)
 
+MAIN_APP_KEY = 'mainAppKey'
 
 if __name__ == '__main__':
-    pass
+    qtapp = QtGui.QApplication(sys.argv)
+
+    standalone_app = sa_main.StandaloneAppFacade.getInstance(key=MAIN_APP_KEY)
+
+    # NOTE: remember to disable webview QURL open
+    main_window = components.QtMainWindow()
+    main_window.show()
+
+    standalone_app.sendNotification(sa_main.StandaloneAppFacade.STARTUP, main_window)
+    #user_facade = PluginFacade.getInstance("user")
+    #if user_facade:
+    #    user_facade.PLUGIN_NAME = "user"
+    #    user_facade.sendNotification(PluginFacade.STARTUP, main_window)
+
+    sys.exit(qtapp.exec_())

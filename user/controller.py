@@ -7,8 +7,8 @@ import logging
 
 from aside.facade import AsideFacade
 
-import model
-import utils
+from standalone import model
+from standalone import utils
 from . import http_root, vo
 
 MAIN_APP_KEY = 'mainAppKey'
@@ -22,7 +22,8 @@ class StartupCommand(puremvc.patterns.command.SimpleCommand, puremvc.interfaces.
 
         main_facade = AsideFacade.getInstance(key=MAIN_APP_KEY)
         web_proxy = main_facade.retrieveProxy(model.WebServerProxy.NAME)
-        path = "%s/%s" % (utils.root_dir(), self.facade.PLUGIN_DIR)
+        #path = "%s/%s" % (utils.root_dir(), self.facade.PLUGIN_DIR)
+        path = "%s" % (utils.root_dir(),)
         static_dir = '%s/html' % (path,)
         web_proxy.tree_mount(self.facade.PLUGIN_NAME, http_root.UserHTTPRoot(), static_dir,
                              orm_base_obj=vo.Base,

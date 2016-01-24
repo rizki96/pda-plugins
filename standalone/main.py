@@ -6,7 +6,7 @@ import controller
 class StandaloneAppFacade(AsideFacade):
 
     # view
-    SHOW_FORM = "showForm"
+    DISPLAY_PAGE = "displayPage"
 
     # command
     STARTUP = 'startup'

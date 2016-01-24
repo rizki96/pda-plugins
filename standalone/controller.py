@@ -7,7 +7,7 @@ import logging
 
 from aside.facade import AsideFacade
 
-from . import model
+from standalone import model
 
 MAIN_APP_KEY = 'mainAppKey'
 
@@ -16,10 +16,15 @@ class StartupCommand(puremvc.patterns.command.SimpleCommand, puremvc.interfaces.
 
     def execute(self, note):
         main_panel = note.getBody()
-        main_panel.on_shutdown.signal.connect(StartupCommand._on_shutdown)
 
         self.facade.registerProxy(model.WebServerProxy(main_panel))
+
+        main_panel.on_shutdown.signal.connect(StartupCommand._on_shutdown)
 
     @staticmethod
     def _on_shutdown(event):
         logging.info("standalone: shutdown")
+        facade = AsideFacade.getInstance("mainAppKey")
+        ws_obj = facade.retrieveProxy(model.WebServerProxy.NAME)
+        if ws_obj:
+            ws_obj.stop()
